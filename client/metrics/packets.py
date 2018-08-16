@@ -77,4 +77,3 @@ class PacketThread(threading.Thread):
         self.rabbit_connection.send_packet(json.dumps(self.packet, indent=1))
 
         time.sleep(int(self.reader.get_send_time()))
-
