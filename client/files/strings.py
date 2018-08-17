@@ -1,34 +1,64 @@
 """Module which contains strings used in the project"""
+import os
+
+
+def get_config_path():
+    """Contains the path to the configuration
+    file, config.ini."""
+
+    root = os.path.dirname(os.path.abspath(__file__))[:-13]
+    config = os.path.join(root, 'config2.ini')
+
+    return config
 
 
 def get_config_metrics():
     """Contains the configuration file form
     for the metrics and metrics default values."""
 
-    metrics = ['DISK_USAGE',
-               'CPU_PERCENT',
-               'MEMORY_INFO',
-               'CPU_STATS']
+    metrics = {'disk_usage': 'YES',
+               'cpu_percent': 'YES',
+               'memory_info': 'YES',
+               'cpu_stats': 'YES'}
 
-    default = ['TRUE',
-               'TRUE',
-               'TRUE',
-               'TRUE']
-
-    return metrics, default
+    return metrics
 
 
-def get_config_settings():
+def get_config_db():
 
-    settings = ['SEND_TIME',
-                'ADDRESS',
-                'PORT']
+    db = {'db_name': 'metrics',
+          'db_url': 'mongodb://user:password13@ds261521.mlab.com:61521/metrics'}
 
-    default = ['5',
-               'localhost',
-               '5672']
+    return db
 
-    return settings, default
+
+def get_config_connection():
+
+    connection = {'send_time': '5',
+                  'address': 'localhost',
+                  'port': '5672',
+                  'flask_port': '500'}
+
+    return connection
+
+
+def get_values_re():
+    """Contains the regex expressions
+    for the values for sections CONNECTION
+    and METRICS."""
+
+    re = r"([1-9]|1[0-9]) " +\
+         r"(localhost) " +\
+         r"(\d{1,5}) " +\
+         r"(\d{1,5}) " +\
+         r"(YES|NO) " +\
+         r"(YES|NO) " +\
+         r"(YES|NO) " + \
+         r"(YES|NO)"
+
+    re = re.split(" ")
+
+    return re
 
 
 def get_configuration_file_form():
@@ -39,7 +69,7 @@ def get_configuration_file_form():
         "\nCPU_PERCENT=TRUE" \
         "\nMEMORY_INFO=TRUE" \
         "\nCPU_STATS=TRUE" \
-        "\nSEND_TIME=2" \
+        "\nSEND_TIME=5" \
         "\nADDRESS=localhost" \
         "\nPORT=5672"
 
@@ -52,7 +82,7 @@ def get_configuration_file_re():
         r"\nCPU_PERCENT=(TRUE|FALSE)" \
         r"\nMEMORY_INFO=(TRUE|FALSE)" \
         r"\nCPU_STATS=(TRUE|FALSE)" \
-        r"\nSEND_TIME=([1-9]|[1-9][0-9])" \
+        r"\nSEND_TIME=([1-9]|1[0-9])" \
         r"\nADDRESS=(localhost)" \
         r"\nPORT=(\d{1,5})"
 
