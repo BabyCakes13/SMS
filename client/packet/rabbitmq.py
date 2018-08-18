@@ -10,7 +10,7 @@ class RabbitConnection:
     def __init__(self, address, port):
         """Creates a connection to the RabbitMQ server
         using the given port and address and
-        opens a queue in which the metrics will
+        opens a queue in which the packet will
         be stored for the server to take."""
 
         connection = \

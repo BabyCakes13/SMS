@@ -5,7 +5,7 @@ from setuptools import find_packages
 
 setup(name='Supercalifragilisticexpialidocius Monitoring System Client',
       version='1.0',
-      description='Application which monitors metrics on PC - Client Side',
+      description='Application which monitors packet on PC - Client Side',
       url='https://github.com/BabyCakes13/'
           'Supercalifragilisticexpialidocius-Monitoring-System-Client.git',
       author='Maria Minerva Vonica',
