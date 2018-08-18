@@ -4,13 +4,22 @@ import os
 
 
 def get_config_path():
-    """Contains the path to the configuration
-    file, parser.ini."""
+    """Contains the path to the configuration 
+    file, config.ini."""
 
     root = os.path.dirname(os.path.abspath(__file__))[:-13]
-    config = os.path.join(root, 'config.ini')
+    config_path = os.path.join(root, 'config.ini')
 
-    return config
+    return config_path
+
+
+def get_id_path():
+    """Returns the path to the id.txt file."""
+    
+    root = os.path.dirname(os.path.abspath(__file__))[:-13]
+    id_path = os.path.join(root, "client\\files\\id.txt")
+    
+    return id_path
 
 
 def get_config_metrics():

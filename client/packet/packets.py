@@ -5,13 +5,12 @@ the send_time set in config.txt file,
 the unique id, representing the machine
 on which the program is currently run, and the
 time at which each packet was sent."""
-import datetime
 import threading
 import time
 import json
-from client.configuration import reader, create_id
+from client.configuration import identifier, reader
 from client.files import strings
-from client.packet import rabbitmq, metrics
+from client.packet import metrics, rabbitmq
 
 
 class Packet:
@@ -28,6 +27,11 @@ class Packet:
         self.reader = reader.Reader()
         self.rabbit_connection = False
 
+        id_handler = identifier.Identifier()
+        self.machine_id = id_handler.get_id()
+
+        self.set_packet_data()
+
     def set_packet_data(self):
         """Initialises the connection to the RabbitMQ queue.
         Starts the thread to send packets to the queue."""
@@ -43,7 +47,7 @@ class Packet:
 
         while True:
             try:
-                lopper = PacketThread(self.rabbit_connection)
+                lopper = PacketThread(self.rabbit_connection, self.machine_id)
                 lopper.daemon = True
                 lopper.start()
                 lopper.join()
@@ -57,7 +61,7 @@ class PacketThread(threading.Thread):
     Data is refreshed based on the set send_time int
     config.ini file. """
 
-    def __init__(self, connection):
+    def __init__(self, connection, machine_id):
         """Initialises the thread and packet info which
         will be sent to the RabbitMQ queue."""
 
@@ -66,11 +70,7 @@ class PacketThread(threading.Thread):
         self.r_handler = reader.Reader()
         self.m_handler = metrics.Metric()
         self.rabbit_connection = connection
-
-        self.packet = {}
-
-        unique_id = create_id.UniqueID()
-        self.packet['ID'] = str(unique_id.read_id())
+        self.packet = {'ID': machine_id}
 
     def run(self):
         """Sends the packets with data to the RabbitMQ queue."""
