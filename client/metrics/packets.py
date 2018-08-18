@@ -1,6 +1,6 @@
 """Module which handles the creation and transmission of packets.
 Packets are formed of metric values collected from the PC, changing based on
-the send time set in config.txt file, the unique id representing the machine
+the send time set in parser.txt file, the unique id representing the machine
 and the time at which each packet was sent."""
 import json
 import threading
@@ -50,7 +50,7 @@ class PacketHandler:
 
 class PacketThread(threading.Thread):
     """Thread which sends packets to the RabbitMQ queue.
-    It sleeps for the given send_time set in config.ini."""
+    It sleeps for the given send_time set in parser.ini."""
 
     def __init__(self, connection):
         """Initialises the thread and packet info which

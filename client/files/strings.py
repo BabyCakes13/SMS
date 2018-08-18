@@ -4,7 +4,7 @@ import os
 
 def get_config_path():
     """Contains the path to the configuration
-    file, config.ini."""
+    file, parser.ini."""
 
     root = os.path.dirname(os.path.abspath(__file__))[:-13]
     config = os.path.join(root, 'config2.ini')
@@ -26,8 +26,8 @@ def get_config_metrics():
 
 def get_config_db():
 
-    db = {'db_name': 'metrics',
-          'db_url': 'mongodb://user:password13@ds261521.mlab.com:61521/metrics'}
+    db = {'db_name': 'database_name',
+          'db_url': 'database_url'}
 
     return db
 

@@ -13,7 +13,7 @@ class TestConfig(unittest.TestCase):
 
     def setUp(self):
         """Calls the Config object to handle
-        config.ini file."""
+        parser.ini file, and Mock."""
 
         self.mock = mock.Mock()
         self.test = configurator.Config()
@@ -53,7 +53,7 @@ class TestConfig(unittest.TestCase):
 
     @mock.patch('client.configuration.validator.Validator')
     def test_validator_called(self, validator):
-        """Tests the calling of ConfigParser()"""
+        """Tests the calling of Validator()"""
 
         self.mock.attach_mock(validator, 'Validator')
         self.test.__init__()
@@ -65,7 +65,7 @@ class TestConfig(unittest.TestCase):
 
     def test_set_config_true(self):
         """Tests whether the sections which should be existent
-        in the config.ini file are there."""
+        in the parser.ini file are there."""
 
         file = open(strings.get_config_path(), "r")
 

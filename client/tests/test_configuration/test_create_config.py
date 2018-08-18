@@ -13,7 +13,7 @@ class TestCreateConfigurationFile(unittest.TestCase):
     def setUpClass(cls):
 
         cls.root_path = os.path.dirname(os.path.abspath(__file__))[:-24]
-        cls.config_path = os.path.join(cls.root_path, "files\\config.txt")
+        cls.config_path = os.path.join(cls.root_path, "files\\parser.txt")
 
         cls.test = create_config.Configuration()
 

@@ -1,4 +1,4 @@
-"""Module which creates config.ini file."""
+"""Module which creates parser.ini file."""
 import configparser
 from client.files import strings
 from client.configuration import validator
@@ -9,21 +9,21 @@ class Config:
     and validity of configuration file."""
 
     def __init__(self):
-        """Initialises the config parser to create
-        the config.ini file."""
+        """Initialises the parser parser to create
+        the parser.ini file."""
 
-        self.config = configparser.ConfigParser()
+        self.parser = configparser.ConfigParser()
         self.validator = validator.Validator()
 
         if self.validator.check_config() is False:
             self.set_config()
 
     def set_config(self):
-        """Creates and writes the config.ini file."""
+        """Creates and writes the parser.ini file."""
 
-        self.config['CONNECTION'] = strings.get_config_connection()
-        self.config['DATABASE'] = strings.get_config_db()
-        self.config['METRICS'] = strings.get_config_metrics()
+        self.parser['CONNECTION'] = strings.get_config_connection()
+        self.parser['DATABASE'] = strings.get_config_db()
+        self.parser['METRICS'] = strings.get_config_metrics()
 
         with open(strings.get_config_path(), 'w') as file:
-            self.config.write(file)
+            self.parser.write(file)

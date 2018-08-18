@@ -26,7 +26,7 @@ class TestValidator(unittest.TestCase):
         """Given the correct file structure, checks
         whether the check_values returns the correct
         answer after verifying the values from
-        config.ini."""
+        parser.ini."""
 
         actual = self.test.check_values()
         expected = True
@@ -37,7 +37,7 @@ class TestValidator(unittest.TestCase):
         """Given the incorrect file structure, checks
         whether the check_values returns the correct
         answer after verifying the values from
-        config.ini."""
+        parser.ini."""
 
         with open(strings.get_config_path(), "w") as file:
             file.write("More nonsense.")
@@ -51,7 +51,7 @@ class TestValidator(unittest.TestCase):
         """Given the correct file structure, checks
         whether the check_keys returns the correct
         answer after verifying the keys from
-        config.ini."""
+        parser.ini."""
 
         actual = self.test.check_keys()
         expected = True
@@ -62,7 +62,7 @@ class TestValidator(unittest.TestCase):
         """Given the incorrect file structure, checks
         whether the check_keys returns the correct
         answer after verifying the keys from
-        config.ini."""
+        parser.ini."""
 
         with open(strings.get_config_path(), "w") as file:
             file.write("More nonsense.")

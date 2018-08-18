@@ -1,5 +1,5 @@
 """Module which handles reading the options
-for each metric from the config.txt file,
+for each metric from the parser.txt file,
 collecting metrics from the PC and
 creating the metric values array"""
 

@@ -1,4 +1,4 @@
-"""Module which reads the information from the config.txt file:
+"""Module which reads the information from the parser.txt file:
 metric options, send time, ip and address."""
 import os
 import re
@@ -9,11 +9,11 @@ class ReaderHandler:
     """Class which handles reading metrics from the configuration file"""
 
     def __init__(self):
-        """Contains the path to the config.txt file."""
+        """Contains the path to the parser.txt file."""
 
         path = os.path.dirname(
             os.path.abspath(os.path.abspath(__file__)))[:-14]
-        self.config_path = path + "\\files\\config.txt"
+        self.config_path = path + "\\files\\parser.txt"
 
     def get_metrics(self):
         """Returns the chosen option for the

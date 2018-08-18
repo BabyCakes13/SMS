@@ -1,5 +1,5 @@
 """Module which test whether the data found in
-the config.txt is correctly read and handled."""
+the parser.txt is correctly read and handled."""
 import unittest
 import os
 from client.configuration import read_config
@@ -14,7 +14,7 @@ class TestReadConfiguration(unittest.TestCase):
     def setUpClass(cls):
         cls.reader = read_config.ReaderHandler()
         cls.root_path = os.path.dirname(os.path.abspath(__file__))[:-24]
-        cls.config_path = os.path.join(cls.root_path, "files\\config.txt")
+        cls.config_path = os.path.join(cls.root_path, "files\\parser.txt")
 
     def test_get_metrics(self):
         """Tests if get_metrics() reads the options of the metrics

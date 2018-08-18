@@ -1,4 +1,4 @@
-"""Module which contains class to validate config.ini."""
+"""Module which contains class to validate parser.ini."""
 import os
 import re
 import configparser
@@ -7,7 +7,7 @@ from client.files import strings
 
 class Validator:
     """Class which validates the structure
-    of config.ini."""
+    of parser.ini."""
 
     def __init__(self):
         """Initialises the configurator passed
@@ -16,7 +16,7 @@ class Validator:
         self.config = configparser.ConfigParser()
 
     def check_config(self):
-        """Checks if the config.ini file exists and
+        """Checks if the parser.ini file exists and
         valid. If it isn't, it creates a new one."""
 
         is_file = os.path.isfile(strings.get_config_path())
