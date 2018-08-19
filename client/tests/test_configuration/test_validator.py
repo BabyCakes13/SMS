@@ -102,7 +102,3 @@ class TestValidator(unittest.TestCase):
         expected = False
 
         self.assertEqual(expected, actual)
-
-
-
-
