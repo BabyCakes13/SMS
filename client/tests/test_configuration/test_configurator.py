@@ -4,7 +4,7 @@ import re
 import os
 import unittest
 from unittest import mock
-from client.configuration import configurator
+from config_util import configurator
 from client.files import strings
 
 
@@ -22,19 +22,6 @@ class TestConfig(unittest.TestCase):
     def tearDown(self):
 
         self.test.__init__()
-
-    def test_set_requirements(self):
-        """After deleting requirements.txt, check if
-        the set_requirements method creates a new file."""
-
-        os.remove(strings.get_requirements_path())
-
-        self.test.set_requirements()
-
-        expected = True
-        actual = os.path.isfile(strings.get_requirements_path())
-
-        self.assertEqual(expected, actual)
 
     @mock.patch('client.configuration.configurator.Config.set_config')
     def test_set_config_called(self, set_config):

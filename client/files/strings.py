@@ -99,3 +99,9 @@ def get_requirements():
 
     return "pika==0.12.0\n" \
            "psutil==5.4.6"
+
+
+def get_rabbit_queue():
+    """Contains the name of the rabbitmq queue."""
+
+    return "metrics_queue"

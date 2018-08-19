@@ -2,8 +2,7 @@
 reader.py module."""
 import unittest
 from unittest import mock
-from client.configuration import reader
-from client.configuration import configurator
+from config_util import configurator, reader
 from client.files import strings
 
 

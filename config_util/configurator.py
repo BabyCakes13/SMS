@@ -1,7 +1,7 @@
 """Module which creates parser.ini file."""
 import configparser
 from client.files import strings
-from client.configuration import validator
+from config_util import validator
 
 
 class Config:
@@ -15,18 +15,8 @@ class Config:
         self.parser = configparser.ConfigParser()
         self.validator = validator.Validator()
 
-        self.set_requirements()
-
         if self.validator.check_config() is False:
             self.set_config()
-
-    @staticmethod
-    def set_requirements():
-        """Creates the requirements file in case
-        is has been altered or deleted."""
-
-        with open(strings.get_requirements_path(), "w")  as file:
-            file.write(strings.get_requirements())
 
     def set_config(self):
         """Creates and writes the parser.ini file."""

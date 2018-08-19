@@ -2,7 +2,7 @@
 import os
 import unittest
 from unittest import mock
-from client.configuration import configurator
+from config_util import configurator
 from client.files import strings
 from client.packet import metrics
 

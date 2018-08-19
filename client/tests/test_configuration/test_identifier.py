@@ -3,7 +3,7 @@ identifier.py"""
 import os
 import unittest
 from unittest import mock
-from client.configuration import identifier
+from config_util import identifier
 from client.files import strings
 
 

@@ -10,12 +10,10 @@ setup(name='SMS',
       url='https://github.com/BabyCakes13/SMS.git',
       author='Maria Minerva Vonica',
       author_email='maria.vonica98@gmail.com',
-      install_requires=['pika',
-                        'psutil'],
-      packages=find_packages(),
-      entry_points={
-        'console_scripts': [
-            'client = client.__main__:main',
-        ],
-      },
+      install_requires=['flask',
+                        'flask_pymongo',
+                        'pika',
+                        'psutil',
+                        ],
+      packages=find_packages()
       )

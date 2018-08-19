@@ -2,7 +2,7 @@
 system metrics."""
 import os
 import psutil
-from client.configuration import reader
+from config_util import reader
 
 
 class Metric:
