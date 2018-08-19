@@ -13,6 +13,15 @@ def get_config_path():
     return config_path
 
 
+def get_requirements_path():
+    """Returns the path to the requirements.txt file."""
+
+    root = os.path.dirname(os.path.abspath(__file__))[:-13]
+    req_path = os.path.join(root, 'requirements.txt')
+
+    return req_path
+
+
 def get_id_path():
     """Returns the path to the id.txt file."""
     
@@ -83,3 +92,10 @@ def get_time():
     time_format = "%Y-%m-%d %H:%M:%S"
     now = str(datetime.datetime.now().strftime(time_format))
     return now
+
+
+def get_requirements():
+    """Retruns the requirements for the application."""
+
+    return "pika==0.12.0\n" \
+           "psutil==5.4.6"

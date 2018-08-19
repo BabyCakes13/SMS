@@ -25,14 +25,14 @@ class Packet:
         and sends the packet dictionary."""
 
         self.reader = reader.Reader()
-        self.rabbit_connection = False
-
         id_handler = identifier.Identifier()
         self.machine_id = id_handler.get_id()
 
-        self.set_packet_data()
+        self.rabbit_connection = False
 
-    def set_packet_data(self):
+        self.set_data()
+
+    def set_data(self):
         """Initialises the connection to the RabbitMQ queue.
         Starts the thread to send packets to the queue."""
 

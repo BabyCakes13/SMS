@@ -4,14 +4,15 @@ from client.configuration import configurator, identifier
 from client.packet import packets
 
 
-def initialise():
+def main():
     """Calls the configuration and checking of parser.txt.
-    Starts reading packet and sending them to the RabbitMQ server."""
+        Starts reading packet and sending them to the RabbitMQ server."""
 
     configurator.Config()
     identifier.Identifier()
     packets.Packet()
 
 
-initialise()
+if __name__ == '__main__':
+    main()
 
