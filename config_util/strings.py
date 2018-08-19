@@ -7,7 +7,7 @@ def get_config_path():
     """Contains the path to the configuration 
     file, config.ini."""
 
-    root = os.path.dirname(os.path.abspath(__file__))[:-13]
+    root = os.path.dirname(os.path.abspath(__file__))[:-12]
     config_path = os.path.join(root, 'config.ini')
 
     return config_path
@@ -25,7 +25,7 @@ def get_requirements_path():
 def get_id_path():
     """Returns the path to the id.txt file."""
     
-    root = os.path.dirname(os.path.abspath(__file__))[:-13]
+    root = os.path.dirname(os.path.abspath(__file__))[:-12]
     id_path = os.path.join(root, "client\\files\\id.txt")
     
     return id_path

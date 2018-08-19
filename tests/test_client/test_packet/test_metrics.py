@@ -2,8 +2,7 @@
 import os
 import unittest
 from unittest import mock
-from config_util import configurator
-from client.files import strings
+from config_util import configurator, strings
 from client.packet import metrics
 
 
@@ -24,7 +23,7 @@ class TestMetrics(unittest.TestCase):
         config = configurator.Config()
         config.set_config()
 
-    @mock.patch('client.configuration.reader.Reader')
+    @mock.patch('config_util.reader.Reader')
     def test_validator_called(self, reader):
         """Tests the calling of Reader()"""
 

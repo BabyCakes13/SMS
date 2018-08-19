@@ -2,7 +2,7 @@
 import os
 import re
 import configparser
-from client.files import strings
+from config_util import strings
 
 
 class Validator:

@@ -8,8 +8,7 @@ time at which each packet was sent."""
 import threading
 import time
 import json
-from config_util import identifier, reader
-from client.files import strings
+from config_util import identifier, reader, strings
 from client.packet import metrics, rabbitmq
 
 

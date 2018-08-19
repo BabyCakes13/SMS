@@ -2,8 +2,7 @@
 handler the unique identifier of a machine running
 the program."""
 import subprocess
-import os
-from client.files import strings
+from config_util import strings
 
 
 class Identifier:

@@ -2,8 +2,7 @@
 test validator.py module."""
 import os
 import unittest
-from config_util import configurator, validator
-from client.files import strings
+from config_util import configurator, validator, strings
 
 
 class TestValidator(unittest.TestCase):

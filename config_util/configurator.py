@@ -1,7 +1,6 @@
 """Module which creates parser.ini file."""
 import configparser
-from client.files import strings
-from config_util import validator
+from config_util import validator, strings
 
 
 class Config:

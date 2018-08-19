@@ -1,16 +1,14 @@
-"""Handles the connection of flask and database"""
-from flask import Flask
-from flask import render_template
-from flask import request
-from server.threads.get_packets import RabbitObjectHandler
-from server.database.db_handler import DatabaseHandler
-from config_util import identifier, configurator, reader
+"""Module which uses Flask to get the packets out of the database
+and make them available to web use."""
+import flask
 from client.packet import packets
+from config_util import identifier, configurator, reader
+from server.threads import get_rpack, db_handler
 
-APP = Flask(__name__, template_folder="templates")
+APP = flask.Flask(__name__, template_folder="templates")
 CONFIG = configurator.Config()
 READER = reader.Reader()
-DATABASE_HANDLER = DatabaseHandler(APP)
+DATABASE_HANDLER = db_handler.Database(APP)
 
 
 @APP.route('/')
@@ -18,14 +16,14 @@ def main_page_route():
     """Displays the main page and the types of information
      you can get the server to display."""
 
-    return render_template("main_page.html")
+    return flask.render_template("main_page.html")
 
 
 @APP.route('/current_supported_metrics')
 def current_supported_metrics_route():
     """Displays the currently supported metrics."""
 
-    return render_template("current_supported_metrics.html",
+    return flask.render_template("current_supported_metrics.html",
                            metrics=READER.get_m_keys())
 
 
@@ -33,7 +31,7 @@ def current_supported_metrics_route():
 def packets_route():
     """Displays information about all the packages in the database."""
 
-    all_packets = DATABASE_HANDLER.get_all_packets()
+    all_packets = DATABASE_HANDLER.get_all()
     packets_list = []
 
     for packets in all_packets:
@@ -41,30 +39,30 @@ def packets_route():
             del packet['_id']
             packets_list.append(packet)
 
-    return render_template("all_packets.html", packets=packets_list)
+    return flask.render_template("all_packets.html", packets=packets_list)
 
 
 @APP.route('/packets/<packet_id>')
 def packets_id_route(packet_id):
     """Displays information about a package based on the package ID"""
-    packet_info = DATABASE_HANDLER.get_packet_info(str(packet_id))
+    packet_info = DATABASE_HANDLER.get_pack(str(packet_id))
 
     for packet in packet_info:
-        packets_new = DATABASE_HANDLER.delete_database_id(packet)
+        packets_new = DATABASE_HANDLER.delete_dbid(packet)
 
-    return render_template("packet_information.html", packets=packets_new)
+    return flask.render_template("packet_information.html", packets=packets_new)
 
 
 @APP.route('/metrics', methods=['GET'])
 def packets_metrics_route():
     """Gets the requested metrics and show only
      that information for all nodes."""
-    metrics = request.args.to_dict().values()
+    metrics = flask.request.args.to_dict().values()
     node_info_list = []
 
     if check_metric(metrics) is True:
 
-        cursor_list = DATABASE_HANDLER.get_all_packets()
+        cursor_list = DATABASE_HANDLER.get_all()
 
         for cursor in cursor_list:
             for cursor_item in cursor:
@@ -78,7 +76,7 @@ def packets_metrics_route():
 
                 node_info_list.append(temp_dict)
 
-    return render_template("packet_information.html", packets=node_info_list)
+    return flask.render_template("packet_information.html", packets=node_info_list)
 
 
 def check_metric(metrics):
@@ -96,7 +94,7 @@ def check_metric(metrics):
 
 if __name__ == '__main__':
 
-    CONSUME_PACKET = RabbitObjectHandler(APP)
+    CONSUME_PACKET = get_rpack.RabbitObjectHandler(APP)
     CONSUME_PACKET.start()
 
     configurator.Config()
