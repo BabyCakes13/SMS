@@ -1,9 +1,8 @@
 """Module which uses Flask to get the packets out of the database
 and make them available to web use."""
 import flask
-import packets
-from util import identifier, configurator, reader
-from server.threads import get_rpack, db_handler
+from util import configurator, reader
+from server import db_handler
 
 APP = flask.Flask(__name__, template_folder="templates")
 CONFIG = configurator.Config()
@@ -91,17 +90,11 @@ def check_metric(metrics):
 
     return is_supported
 
+def get_app():
 
-if __name__ == '__main__':
+    return APP
 
-    CONSUME_PACKET = get_rpack.RabbitObjectHandler(APP)
-    CONSUME_PACKET.start()
 
-    configurator.Config()
-    identifier.Identifier()
-    pack = packets.Packet()
-    pack.start_sending(pack.connection)
 
-    APP.run(READER.get_c_value()[1], READER.get_c_value()[3])
 
 

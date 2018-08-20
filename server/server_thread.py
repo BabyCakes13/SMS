@@ -1,14 +1,13 @@
 """Module which takes the packets from the RabbitMQ and
 stores them in the database."""
 import json
-from threading import Thread
+import threading
 import pika
-from util.strings import get_rabbit_queue
-from util import reader
-from server.threads import db_handler
+from util import reader, strings
+from server import db_handler
 
 
-class RabbitObjectHandler(Thread):
+class RabbitThread(threading.Thread):
     """Class which handles the packets fromm the RabbitMQ queue."""
 
     def __init__(self, app):
@@ -16,7 +15,7 @@ class RabbitObjectHandler(Thread):
         in order to get the objects waiting in Rabbit queue and put them in
         the database."""
 
-        Thread.__init__(self)
+        threading.Thread.__init__(self)
 
         self.connection = False
         self.app = app
@@ -33,7 +32,8 @@ class RabbitObjectHandler(Thread):
             pika.ConnectionParameters(
                 read.get_c_value()[1], read.get_c_value()[2]))
         self.connection = connection.channel()
-        self.connection.queue_declare(queue=get_rabbit_queue())
+        queue = strings.get_rabbit_queue()
+        self.connection.queue_declare(queue=queue)
 
     def collect_packet(self, channel, method, properties, body):
         """Adds the packet collected from the RabbitMQ
@@ -47,8 +47,9 @@ class RabbitObjectHandler(Thread):
         """Starts the thread which consumes the objects
          from the RabbitMQ queue."""
 
+        queue = strings.get_rabbit_queue()
         self.connection.basic_consume(self.collect_packet,
-                                      queue=get_rabbit_queue(),
+                                      queue= queue,
                                       no_ack=True)
 
         self.connection.start_consuming()

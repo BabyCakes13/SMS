@@ -16,12 +16,14 @@ class PacketThread(threading.Thread):
         """Initialises the thread and packet info which
         will be sent to the RabbitMQ queue."""
 
+        threading.Thread.__init__(self)
+
+        time.sleep(5)
+
         self.r_handler = reader.Reader()
         self.m_handler = metrics.Metric()
         self.rabbit_connection = connection
         self.packet = {'ID': machine_id}
-
-        threading.Thread.__init__(self)
 
     def run(self):
         """Sends the packets with data to the RabbitMQ queue."""
@@ -31,5 +33,4 @@ class PacketThread(threading.Thread):
 
         self.rabbit_connection.send_packet(json.dumps(self.packet, indent=1))
 
-        send_time = int(self.r_handler.get_c_value()[0])
-        time.sleep(send_time)
+

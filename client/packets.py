@@ -5,7 +5,6 @@ the send_time set in config.txt file,
 the unique id, representing the machine
 on which the program is currently run, and the
 time at which each packet was sent."""
-import thread
 import rabbitmq
 from util import identifier, reader
 
@@ -42,18 +41,3 @@ class Packet:
             print("Connection error to RabbitMQ.")
 
         return rabbit_connection
-
-    def start_sending(self, rabbit_connection):
-        """Stats the thread which sends the packets of metrics
-        to the RabbitMQ server."""
-
-        while True and rabbit_connection is not None:
-            try:
-                lopper = thread.PacketThread(rabbit_connection,
-                                             self.machine_id)
-                lopper.daemon = True
-                lopper.start()
-                lopper.join()
-            except(KeyboardInterrupt, SystemExit):
-                print("Stopped connection.")
-                exit(0)

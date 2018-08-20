@@ -26,7 +26,6 @@ class Metric:
             method_name = 'get_%s' % metric
 
             if hasattr(self, method_name) and m_values[i] == 'YES':
-                print("fetched")
                 sys_data[metric] = getattr(self, method_name)()
 
         return sys_data
