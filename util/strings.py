@@ -7,7 +7,7 @@ def get_config_path():
     """Contains the path to the configuration 
     file, config.ini."""
 
-    root = os.path.dirname(os.path.abspath(__file__))[:-12]
+    root = os.path.dirname(os.path.abspath(__file__))[:-5]
     config_path = os.path.join(root, 'config.ini')
 
     return config_path
@@ -25,7 +25,7 @@ def get_requirements_path():
 def get_id_path():
     """Returns the path to the id.txt file."""
     
-    root = os.path.dirname(os.path.abspath(__file__))[:-12]
+    root = os.path.dirname(os.path.abspath(__file__))[:-5]
     id_path = os.path.join(root, "client\\files\\id.txt")
     
     return id_path
@@ -80,25 +80,13 @@ def get_values_re():
     return re
 
 
-def get_id_re():
-    """Returns the regex expression for the id form."""
-
-    return r"[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}"
-
-
 def get_time():
     """Returns the current time."""
 
     time_format = "%Y-%m-%d %H:%M:%S"
     now = str(datetime.datetime.now().strftime(time_format))
+
     return now
-
-
-def get_requirements():
-    """Retruns the requirements for the application."""
-
-    return "pika==0.12.0\n" \
-           "psutil==5.4.6"
 
 
 def get_rabbit_queue():

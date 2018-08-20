@@ -2,8 +2,8 @@
 import os
 import unittest
 from unittest import mock
-from config_util import configurator, strings
-from client.packet import metrics
+from util import configurator, strings
+import metrics
 
 
 class TestMetrics(unittest.TestCase):
@@ -16,14 +16,15 @@ class TestMetrics(unittest.TestCase):
 
         self.mock = mock.Mock()
         self.test = metrics.Metric()
+        self.config = configurator.Config()
 
     def tearDown(self):
         """Creates a new config.ini file after each test."""
 
-        config = configurator.Config()
-        config.set_config()
+        self.config = configurator.Config()
+        self.config.set_config()
 
-    @mock.patch('config_util.reader.Reader')
+    @mock.patch('util.reader.Reader')
     def test_validator_called(self, reader):
         """Tests the calling of Reader()"""
 
@@ -35,7 +36,7 @@ class TestMetrics(unittest.TestCase):
 
         self.assertEqual(expected, actual)
 
-    @mock.patch('client.packet.metrics.Metric.get_cpu_stats')
+    @mock.patch('client.metrics.Metric.get_cpu_stats')
     def test_get_values_set(self, get_cpu_stats):
         """Tests whether the get_value function only calls
         get_cpu_stats(), after the config.ini file has been
@@ -43,20 +44,25 @@ class TestMetrics(unittest.TestCase):
 
         self.mock.attach_mock(get_cpu_stats, 'get_cpu_stats')
 
-        config = configurator.Config()
-        config.parser.read(strings.get_config_path())
+        self.config.parser.read(strings.get_config_path())
 
-        config.parser.set('METRICS', 'disk_usage', 'NO')
-        config.parser.set('METRICS', 'cpu_percent', 'NO')
-        config.parser.set('METRICS', 'memory_info', 'NO')
+        self.config.parser.set('METRICS', 'disk_usage', 'NO')
+        self.config.parser.set('METRICS', 'cpu_percent', 'NO')
+        self.config.parser.set('METRICS', 'memory_info', 'NO')
+        self.config.parser.set('METRICS', 'cpu_stats', 'YES')
 
         with open(strings.get_config_path(), "w") as file:
-            config.parser.write(file)
+            self.config.parser.write(file)
+
+        with open(strings.get_config_path(), "r") as f:
+            print(f.read())
 
         self.test.get_values()
 
-        expected = mock.call.get_cpu_stats()
-        actual = self.mock.mock_calls[0]
+        expected = [mock.call.get_cpu_stats()]
+        actual = self.mock.mock_calls
+
+        print(self.mock.mock_calls)
 
         self.assertEqual(expected, actual)
 

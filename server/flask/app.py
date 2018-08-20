@@ -1,8 +1,8 @@
 """Module which uses Flask to get the packets out of the database
 and make them available to web use."""
 import flask
-from client.packet import packets
-from config_util import identifier, configurator, reader
+import packets
+from util import identifier, configurator, reader
 from server.threads import get_rpack, db_handler
 
 APP = flask.Flask(__name__, template_folder="templates")
@@ -99,7 +99,8 @@ if __name__ == '__main__':
 
     configurator.Config()
     identifier.Identifier()
-    packets.Packet()
+    pack = packets.Packet()
+    pack.start_sending(pack.connection)
 
     APP.run(READER.get_c_value()[1], READER.get_c_value()[3])
 

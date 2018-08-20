@@ -3,7 +3,7 @@ of configurator.py"""
 import re
 import unittest
 from unittest import mock
-from config_util import configurator, strings
+from util import configurator, strings
 
 
 class TestConfig(unittest.TestCase):
@@ -21,7 +21,7 @@ class TestConfig(unittest.TestCase):
 
         self.test.__init__()
 
-    @mock.patch('config_util.configurator.Config.set_config')
+    @mock.patch('util.configurator.Config.set_config')
     def test_set_config_called(self, set_config):
         """Tests if the set_config functions is called
         when the file is not valid."""
@@ -50,7 +50,7 @@ class TestConfig(unittest.TestCase):
 
         self.assertEqual(expected, actual)
 
-    @mock.patch('config_util.configurator.validator.Validator')
+    @mock.patch('util.configurator.validator.Validator')
     def test_validator_called(self, validator):
         """Tests the calling of Validator()"""
 

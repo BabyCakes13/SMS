@@ -1,7 +1,7 @@
 """Module which contains Reader class to
 get information from the parser.ini file."""
 import configparser
-from config_util import configurator, validator, strings
+from util import configurator, validator, strings
 
 
 class Reader:

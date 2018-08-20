@@ -1,9 +1,10 @@
 """Module which handles the RabbitMQ connection,
 packets sending and queue handling."""
 import pika
+from util import strings
 
 
-class RabbitConnection:
+class RabbitMQ:
     """Handles the connection to the RabbitMQ server,
     transmission of packets and closing the channel."""
 
@@ -21,8 +22,9 @@ class RabbitConnection:
     def send_packet(self, packet):
         """Sends given packets to the RabbitMQ queue"""
 
+        queue = strings.get_rabbit_queue()
         self.rabbit_connection.basic_publish(exchange='',
-                                             routing_key='metrics_queue',
+                                             routing_key=queue,
                                              body=packet)
 
         print("sent..." + packet)

@@ -14,6 +14,7 @@ setup(name='SMS',
                         'flask_pymongo',
                         'pika',
                         'psutil',
+                        'pymongo',
                         ],
       packages=find_packages()
       )

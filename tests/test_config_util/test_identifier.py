@@ -3,7 +3,7 @@ identifier.py"""
 import os
 import unittest
 from unittest import mock
-from config_util import identifier, strings
+from util import identifier, strings
 
 
 class TestIdentifier(unittest.TestCase):
@@ -20,7 +20,7 @@ class TestIdentifier(unittest.TestCase):
 
         self.test.set_id()
 
-    @mock.patch('config_util.identifier.Identifier.set_id')
+    @mock.patch('util.identifier.Identifier.set_id')
     def test_init_false(self, set_id):
         """Tests if init calls the set_id function if validate_id
         is False"""
@@ -37,7 +37,7 @@ class TestIdentifier(unittest.TestCase):
 
         self.assertEqual(expected, actual)
 
-    @mock.patch('config_util.identifier.Identifier.set_id')
+    @mock.patch('util.identifier.Identifier.set_id')
     def test_init_true(self, set_id):
         """Tests if init doesn't call the set_id function if validate_id
         is True"""

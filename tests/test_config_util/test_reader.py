@@ -2,7 +2,7 @@
 reader.py module."""
 import unittest
 from unittest import mock
-from config_util import configurator, reader, strings
+from util import configurator, reader, strings
 
 
 class TestReader(unittest.TestCase):

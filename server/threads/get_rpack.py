@@ -3,8 +3,8 @@ stores them in the database."""
 import json
 from threading import Thread
 import pika
-from config_util.strings import get_rabbit_queue
-from config_util import reader
+from util.strings import get_rabbit_queue
+from util import reader
 from server.threads import db_handler
 
 

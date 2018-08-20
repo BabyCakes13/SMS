@@ -2,7 +2,7 @@
 import os
 import re
 import configparser
-from config_util import strings
+from util import strings
 
 
 class Validator:

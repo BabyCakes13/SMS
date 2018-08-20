@@ -1,13 +1,14 @@
 """Main module, this starts the application"""
 
-from config_util import identifier, configurator
-from client.packet import packets
+import packets
+from util import identifier, configurator
 
 
 if __name__ == '__main__':
     """Calls the configuration and checking of parser.txt.
-            Starts reading packet and sending them to the RabbitMQ server."""
+    Starts reading packet and sending them to the RabbitMQ server."""
 
     configurator.Config()
     identifier.Identifier()
-    packets.Packet()
+    send_pack = packets.Packet()
+    send_pack.set_data()

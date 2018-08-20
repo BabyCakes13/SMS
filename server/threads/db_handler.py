@@ -1,6 +1,7 @@
 """Module which manages the information sent by the Flask server."""
-from flask_pymongo import PyMongo
-from config_util import reader
+import flask_pymongo
+import pymongo
+from util import reader
 
 
 class Database:
@@ -19,8 +20,14 @@ class Database:
         self.app.config['MONGODB_NAME'] = read.get_d_value()[0]
         self.app.config['MONGO_URI'] = read.get_d_value()[1]
 
-        self.database = PyMongo(self.app)
-        self.handler = self.database.db.nodev
+        try:
+            self.database = flask_pymongo.PyMongo(self.app)
+            self.handler = self.database.db.nodev
+        except (pymongo.errors.InvalidURI,
+                pymongo.errors.InvalidName,
+                pymongo.errors.ConnectionFailure):
+            print("Invalid database URI or database name.")
+            exit(-1)
 
     def add_pack(self, packet):
         """Adds a packet to the database."""
@@ -53,3 +60,4 @@ class Database:
         new_packet = packet
         del new_packet['_id']
         return new_packet
+
