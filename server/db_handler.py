@@ -22,7 +22,7 @@ class Database:
 
         try:
             self.database = flask_pymongo.PyMongo(self.app)
-            self.handler = self.database.db.nodev
+            self.handler = self.database.db.packets
         except (pymongo.errors.InvalidURI,
                 pymongo.errors.InvalidName,
                 pymongo.errors.ConnectionFailure):

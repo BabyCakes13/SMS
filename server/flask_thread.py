@@ -1,28 +1,24 @@
+"""Module which hold the class with the Flask server thread"""
 import threading
-import flask
-from server import db_handler
 from util import reader
 
 
 class FlaskThread(threading.Thread):
+    """Class which holds the thread to run the Flask server."""
 
-    APP = flask.Flask(__name__, template_folder="server.flask.templates")
+    def __init__(self, app):
+        """Starts the thread which runs the Flask server."""
 
-    def __init__(self):
-
+        self.app = app
         threading.Thread.__init__(self)
 
-        self.READER = reader.Reader()
-        self.DATABASE_HANDLER = db_handler.Database(self.APP)
+        thread = threading.Thread(target=self.run_app)
+        thread.setDaemon(True)
+        thread.start()
 
-    def run(self):
+    def run_app(self):
+        """Starts the flask server."""
 
-        self.APP.run(self.READER.get_c_value()[1], self.READER.get_c_value()[3])
-
-    @staticmethod
-    @APP.route('/')
-    def main_page_route():
-        """Displays the main page and the types of information
-         you can get the server to display."""
-
-        return "hello"
+        read = reader.Reader()
+        self.app.run(read.get_c_value()[1],
+                     read.get_c_value()[3])

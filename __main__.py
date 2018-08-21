@@ -3,7 +3,7 @@ from client import packets, client_thread
 from server.flask import app
 from server import server_thread
 from util import configurator, identifier, reader
-from server import flask_thread
+from server.flask import app
 
 
 def start_threads(connection, app, machine_id, sleep):
@@ -39,14 +39,10 @@ if __name__ == '__main__':
 
     machine_id = send_metric.machine_id
     sleep = int(read.get_c_value()[0])
-    app = app.get_app()
 
-    flask = flask_thread.FlaskThread()
-    flask.daemon = True
-    flask.start()
+    app.start_app()
 
-    start_threads(rabbit_connection, app, machine_id, sleep)
+    start_threads(rabbit_connection, app.app, machine_id, sleep)
 
-    print("started!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
-    #app.APP.run(read.get_c_value()[1], read.get_c_value()[3], threaded=True)
+

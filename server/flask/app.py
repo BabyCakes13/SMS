@@ -2,15 +2,23 @@
 and make them available to web use."""
 import flask
 from util import configurator, reader
-from server import db_handler
+from server import db_handler, flask_thread
 
-APP = flask.Flask(__name__, template_folder="templates")
-CONFIG = configurator.Config()
-READER = reader.Reader()
-DATABASE_HANDLER = db_handler.Database(APP)
+app = flask.Flask(__name__, template_folder="templates")
+config = configurator.Config()
+read = reader.Reader()
+database = db_handler.Database(app)
 
 
-@APP.route('/')
+def start_app():
+    """Starts the thread which runs Flask app."""
+
+    thread = flask_thread.FlaskThread(app)
+    thread.setDaemon(True)
+    thread.start()
+
+
+@app.route('/')
 def main_page_route():
     """Displays the main page and the types of information
      you can get the server to display."""
@@ -18,64 +26,66 @@ def main_page_route():
     return flask.render_template("main_page.html")
 
 
-@APP.route('/current_supported_metrics')
-def current_supported_metrics_route():
+@app.route('/supported_metrics')
+def supported_metrics_route():
     """Displays the currently supported metrics."""
 
-    return flask.render_template("current_supported_metrics.html",
-                           metrics=READER.get_m_keys())
+    return flask.render_template("supported_metrics.html",
+                                 metrics=read.get_m_keys())
 
 
-@APP.route('/packets')
+@app.route('/packets')
 def packets_route():
     """Displays information about all the packages in the database."""
 
-    all_packets = DATABASE_HANDLER.get_all()
-    packets_list = []
+    all_packets = database.get_all()
+    packets = []
 
-    for packets in all_packets:
-        for packet in packets:
-            del packet['_id']
-            packets_list.append(packet)
+    for packet in all_packets:
+        for pack in packet:
+            del pack['_id']
+            packets.append(pack)
 
-    return flask.render_template("all_packets.html", packets=packets_list)
+    return flask.render_template("all_packets.html", packets=packets)
 
 
-@APP.route('/packets/<packet_id>')
+@app.route('/packets/<packet_id>')
 def packets_id_route(packet_id):
     """Displays information about a package based on the package ID"""
-    packet_info = DATABASE_HANDLER.get_pack(str(packet_id))
+
+    packet_info = database.get_pack(str(packet_id))
 
     for packet in packet_info:
-        packets_new = DATABASE_HANDLER.delete_dbid(packet)
+        packet = database.delete_dbid(packet)
 
-    return flask.render_template("packet_information.html", packets=packets_new)
+    return flask.render_template("packet_information.html", packets=packet)
 
 
-@APP.route('/metrics', methods=['GET'])
-def packets_metrics_route():
+@app.route('/metrics', methods=['GET'])
+def metrics_route():
     """Gets the requested metrics and show only
      that information for all nodes."""
+
     metrics = flask.request.args.to_dict().values()
-    node_info_list = []
+    packets = []
 
     if check_metric(metrics) is True:
 
-        cursor_list = DATABASE_HANDLER.get_all()
+        cursor_list = database.get_all()
 
-        for cursor in cursor_list:
-            for cursor_item in cursor:
+        for cursors in cursor_list:
+            for cursor in cursors:
 
-                temp_dict = {
-                    "ID": cursor_item.get('ID'),
+                info = {
+                    "ID": cursor.get('ID'),
                 }
 
                 for metric in metrics:
-                    temp_dict[metric] = cursor_item.get('%s' % metric)
+                    info[metric] = cursor.get('%s' % metric)
 
-                node_info_list.append(temp_dict)
+                packets.append(info)
 
-    return flask.render_template("packet_information.html", packets=node_info_list)
+    return flask.render_template("packet_information.html", packets=packets)
 
 
 def check_metric(metrics):
@@ -84,15 +94,12 @@ def check_metric(metrics):
 
     for metric in metrics:
         is_supported = False
-        for supported in READER.get_m_keys():
+        for supported in read.get_m_keys():
             if str(supported) == str(metric):
                 is_supported = True
 
     return is_supported
 
-def get_app():
-
-    return APP
 
 
 
