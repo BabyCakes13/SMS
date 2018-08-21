@@ -10,7 +10,7 @@ from util import reader, strings
 class PacketThread(threading.Thread):
     """Thread which sends packets to the RabbitMQ queue.
     Data is refreshed based on the set send_time int
-    CONFIG.ini file. """
+    config.ini file. """
 
     def __init__(self, connection, machine_id):
         """Initialises the thread and packet info which

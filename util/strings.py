@@ -4,10 +4,10 @@ import os
 
 
 def get_config_path():
-    """Contains the path to the configuration file, CONFIG.ini."""
+    """Contains the path to the configuration file, config.ini."""
 
     root = os.path.dirname(os.path.abspath(__file__))[:-5]
-    config_path = os.path.join(root, 'CONFIG.ini')
+    config_path = os.path.join(root, 'config.ini')
 
     return config_path
 
@@ -44,7 +44,7 @@ def get_config_metrics():
 
 def get_config_db():
     """Returns the default configuration for the
-    DATABASE section in CONFIG.ini."""
+    DATABASE section in config.ini."""
 
     datab = {'db_name': 'database_name',
              'db_url': 'database_url'}
@@ -54,7 +54,7 @@ def get_config_db():
 
 def get_config_connection():
     """Returns the default structure of the
-    CONNECTION section from CONFIG.ini."""
+    CONNECTION section from config.ini."""
 
     connection = {'send_time': '5',
                   'address': 'localhost',

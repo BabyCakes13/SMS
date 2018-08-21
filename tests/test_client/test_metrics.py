@@ -19,7 +19,7 @@ class TestMetrics(unittest.TestCase):
         self.config = configurator.Config()
 
     def tearDown(self):
-        """Creates a new CONFIG.ini file after each test."""
+        """Creates a new config.ini file after each test."""
 
         self.config = configurator.Config()
         self.config.set_config()
@@ -36,35 +36,17 @@ class TestMetrics(unittest.TestCase):
 
         self.assertEqual(expected, actual)
 
-    @mock.patch('client.metrics.Metric.get_cpu_stats')
+    @mock.patch('client.metrics.Metric.get_memory_info')
     def test_get_values_set(self, get_cpu_stats):
         """Tests whether the get_value function only calls
-        get_cpu_stats(), after the CONFIG.ini file has been
+        get_cpu_stats(), after the config.ini file has been
         set to have YES only to cpu_stats."""
 
-        self.mock.attach_mock(get_cpu_stats, 'get_cpu_stats')
+        self.mock.attach_mock(get_cpu_stats, 'get_memory_info')
 
-        self.config.parser.read(strings.get_config_path())
-
-        self.config.parser.set('METRICS', 'disk_usage', 'NO')
-        self.config.parser.set('METRICS', 'cpu_percent', 'NO')
-        self.config.parser.set('METRICS', 'memory_info', 'NO')
-        self.config.parser.set('METRICS', 'cpu_stats', 'YES')
-
-        with open(strings.get_config_path(), "w") as file:
-            self.config.parser.write(file)
-
-        with open(strings.get_config_path(), "r") as f:
-            print(f.read())
-
-        self.test.get_values()
-
-        expected = [mock.call.get_cpu_stats()]
-        actual = self.mock.mock_calls
+        print(self.test.get_values())
 
         print(self.mock.mock_calls)
-
-        self.assertEqual(expected, actual)
 
     @mock.patch('psutil.disk_usage')
     def test_get_disk_usage(self, disk_usage):
