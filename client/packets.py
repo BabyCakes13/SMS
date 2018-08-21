@@ -1,7 +1,7 @@
 """Module which handles the creation and transmission of packets.
 Packets are formed of metric values
 collected from the PC, sent based on
-the send_time set in config.txt file,
+the send_time set in CONFIG.txt file,
 the unique id, representing the machine
 on which the program is currently run, and the
 time at which each packet was sent."""

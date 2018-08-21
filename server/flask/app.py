@@ -1,24 +1,25 @@
 """Module which uses Flask to get the packets out of the database
 and make them available to web use."""
 import flask
-from util import configurator, reader
-from server import db_handler, flask_thread
+from util import configurator
+from util import reader
+from server import database, flask_server
 
-app = flask.Flask(__name__, template_folder="templates")
-config = configurator.Config()
-read = reader.Reader()
-database = db_handler.Database(app)
+APP = flask.Flask(__name__, template_folder="templates")
+CONFIG = configurator.Config()
+READ = reader.Reader()
+DATABASE = database.Database(APP)
 
 
 def start_app():
-    """Starts the thread which runs Flask app."""
+    """Starts the thread which runs Flask APP."""
 
-    thread = flask_thread.FlaskThread(app)
+    thread = flask_server.FlaskThread(APP)
     thread.setDaemon(True)
     thread.start()
 
 
-@app.route('/')
+@APP.route('/')
 def main_page_route():
     """Displays the main page and the types of information
      you can get the server to display."""
@@ -26,19 +27,19 @@ def main_page_route():
     return flask.render_template("main_page.html")
 
 
-@app.route('/supported_metrics')
+@APP.route('/supported_metrics')
 def supported_metrics_route():
     """Displays the currently supported metrics."""
 
     return flask.render_template("supported_metrics.html",
-                                 metrics=read.get_m_keys())
+                                 metrics=READ.get_m_keys())
 
 
-@app.route('/packets')
+@APP.route('/packets')
 def packets_route():
     """Displays information about all the packages in the database."""
 
-    all_packets = database.get_all()
+    all_packets = DATABASE.get_all()
     packets = []
 
     for packet in all_packets:
@@ -49,19 +50,19 @@ def packets_route():
     return flask.render_template("all_packets.html", packets=packets)
 
 
-@app.route('/packets/<packet_id>')
+@APP.route('/packets/<packet_id>')
 def packets_id_route(packet_id):
     """Displays information about a package based on the package ID"""
 
-    packet_info = database.get_pack(str(packet_id))
+    packet_info = DATABASE.get_pack(str(packet_id))
 
     for packet in packet_info:
-        packet = database.delete_dbid(packet)
+        packets = DATABASE.delete_dbid(packet)
 
-    return flask.render_template("packet_information.html", packets=packet)
+    return flask.render_template("packet_information.html", packets=packets)
 
 
-@app.route('/metrics', methods=['GET'])
+@APP.route('/metrics', methods=['GET'])
 def metrics_route():
     """Gets the requested metrics and show only
      that information for all nodes."""
@@ -71,7 +72,7 @@ def metrics_route():
 
     if check_metric(metrics) is True:
 
-        cursor_list = database.get_all()
+        cursor_list = DATABASE.get_all()
 
         for cursors in cursor_list:
             for cursor in cursors:
@@ -94,14 +95,8 @@ def check_metric(metrics):
 
     for metric in metrics:
         is_supported = False
-        for supported in read.get_m_keys():
+        for supported in READ.get_m_keys():
             if str(supported) == str(metric):
                 is_supported = True
 
     return is_supported
-
-
-
-
-
-

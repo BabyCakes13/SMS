@@ -19,7 +19,7 @@ class TestMetrics(unittest.TestCase):
         self.config = configurator.Config()
 
     def tearDown(self):
-        """Creates a new config.ini file after each test."""
+        """Creates a new CONFIG.ini file after each test."""
 
         self.config = configurator.Config()
         self.config.set_config()
@@ -39,7 +39,7 @@ class TestMetrics(unittest.TestCase):
     @mock.patch('client.metrics.Metric.get_cpu_stats')
     def test_get_values_set(self, get_cpu_stats):
         """Tests whether the get_value function only calls
-        get_cpu_stats(), after the config.ini file has been
+        get_cpu_stats(), after the CONFIG.ini file has been
         set to have YES only to cpu_stats."""
 
         self.mock.attach_mock(get_cpu_stats, 'get_cpu_stats')

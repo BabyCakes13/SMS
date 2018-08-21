@@ -10,7 +10,7 @@ class Metric:
     information from the PC."""
 
     def __init__(self):
-        """Initialises a reader to read the config.ini file."""
+        """Initialises a reader to read the CONFIG.ini file."""
 
         self.reader = reader.Reader()
 

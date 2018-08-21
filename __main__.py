@@ -1,21 +1,22 @@
-import time
-from client import packets, client_thread
+"""Module which starts the application. It starts the Flask server,
+and after validating the configuration and id.txt, it starts
+sending packets to RabbitMQ, and consuming them in the database."""
+from client import packets, start_sending
+from server import start_consuming
 from server.flask import app
-from server import server_thread
 from util import configurator, identifier, reader
-from server.flask import app
 
 
-def start_threads(connection, app, machine_id, sleep):
+def start_threads(connection, flask_app, packet_id):
     """Stats the thread which sens metrics to the RabbitMQ queue
     and the thread which consumes it and adds it to the database."""
 
     while True and connection is not None:
 
         try:
-            client = client_thread.PacketThread(connection,
-                                                machine_id)
-            server = server_thread.RabbitThread(app)
+            client = start_sending.PacketThread(connection,
+                                                packet_id)
+            server = start_consuming.RabbitThread(flask_app)
 
             client.daemon = True
             server.daemon = True
@@ -28,21 +29,27 @@ def start_threads(connection, app, machine_id, sleep):
             exit(0)
 
 
-if __name__ == '__main__':
+def start():
+    """It first validates the config.ini file.
+       It sets connection to the RabbitMQ queue to send the metrics.
+       Sets the machine id.
+       It starts the Flask server, then the client and server thread
+       on send and consume side of RabbitMQ."""
 
     configurator.Config()
     identifier.Identifier()
-    read = reader.Reader()
+    reader.Reader()
 
-    send_metric = packets.Packet()
-    rabbit_connection = send_metric.set_connection()
+    metrics = packets.Packet()
+    machine_id = metrics.machine_id
 
-    machine_id = send_metric.machine_id
-    sleep = int(read.get_c_value()[0])
+    rabbit_connection = metrics.set_connection()
 
     app.start_app()
 
-    start_threads(rabbit_connection, app.app, machine_id, sleep)
+    start_threads(rabbit_connection, app.APP, machine_id)
 
 
+if __name__ == '__main__':
 
+    start()

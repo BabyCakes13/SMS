@@ -4,7 +4,7 @@ import json
 import threading
 import pika
 from util import reader, strings
-from server import db_handler
+from server import database
 
 
 class RabbitThread(threading.Thread):
@@ -21,7 +21,7 @@ class RabbitThread(threading.Thread):
         self.app = app
 
         self.connect()
-        self.database = db_handler.Database(self.app)
+        self.database = database.Database(self.app)
 
     def connect(self):
         """Connects to the RabbitMQ queue."""
@@ -49,7 +49,7 @@ class RabbitThread(threading.Thread):
 
         queue = strings.get_rabbit_queue()
         self.connection.basic_consume(self.collect_packet,
-                                      queue= queue,
+                                      queue=queue,
                                       no_ack=True)
 
         self.connection.start_consuming()

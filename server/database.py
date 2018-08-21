@@ -60,4 +60,3 @@ class Database:
         new_packet = packet
         del new_packet['_id']
         return new_packet
-

@@ -18,7 +18,7 @@ class TestPacket(unittest.TestCase):
         self.config.set_config()
 
     def tearDown(self):
-        """After each test, a new config.ini file is created."""
+        """After each test, a new CONFIG.ini file is created."""
 
         self.config = configurator.Config()
         self.config.set_config()
@@ -49,7 +49,7 @@ class TestPacket(unittest.TestCase):
 
     def test_set_connection_default(self):
         """Tests whether the connection to the RabbitMQ queue
-        is successful after configuring a new config.ini file."""
+        is successful after configuring a new CONFIG.ini file."""
 
         self.config.set_config()
 
@@ -60,7 +60,7 @@ class TestPacket(unittest.TestCase):
     def test_set_connection_altered(self):
         """Tests whether the connection to the RabbitMQ queue
         is successful after altering the address and port found
-        in config.ini file."""
+        in CONFIG.ini file."""
 
         self.config.parser.read(strings.get_config_path())
         self.config.parser.set('CONNECTION', 'address', 'bad coffee')
