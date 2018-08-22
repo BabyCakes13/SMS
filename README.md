@@ -150,13 +150,13 @@ METRICS:
 change YES to NO if you don't want the specific metric to be collected.
 
 After completing the config.ini file, run  __main__py in order to start the application.
-Then go to the generated link. Example: https://localhost:500
+Then go to the generated link. Example: http://localhost:500
 
 PAGES:
 
-https://localhost:500 - this is the main page. Instructions on using the other pages are found here.
-https://localhost:500/supported_metrics - this displays the current supported metrics which can be collected
-https://localhost:500/packets - this displays all the packets from distinct machines. (different ID). 
+http://localhost:500 - this is the main page. Instructions on using the other pages are found here.
+http://localhost:500/supported_metrics - this displays the current supported metrics which can be collected
+http://localhost:500/packets - this displays all the packets from distinct machines. (different ID). 
                               last collect is showed for each machine.
-https://localhost:500/packets/"id" - using the ID of one packet, show information only for that packet
-https://localhost:500/metrics/"variables" - choose which metrics to be shown for the packets.
+http://localhost:500/packets/"id" - using the ID of one packet, show information only for that packet
+http://localhost:500/metrics/"variables" - choose which metrics to be shown for the packets.
