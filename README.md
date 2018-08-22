@@ -159,4 +159,4 @@ http://localhost:500/supported_metrics - this displays the current supported met
 http://localhost:500/packets - this displays all the packets from distinct machines. (different ID). 
                               last collect is showed for each machine.
 http://localhost:500/packets/"id" - using the ID of one packet, show information only for that packet
-http://localhost:500/metrics/"variables" - choose which metrics to be shown for the packets.
+http://localhost:500/metrics?a=cpu_stats&b=disk_usage (example) - choose which metrics to be shown for the packets.
